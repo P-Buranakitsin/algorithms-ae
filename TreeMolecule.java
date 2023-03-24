@@ -17,14 +17,28 @@ public class TreeMolecule implements Molecule {
 
         @Override
         public boolean addBond(Atom a1, Atom a2, int strength) {
-                if (!this.contains(a1) || !this.contains(a2)) {
+                // a1 should already be in the molecule
+                if (!this.contains(a1)) {
                         return false;
                 }
-
+                // a2 should not be the exact same object as a1, but it can of the same type
                 if (a1.equals(a2)) {
                         return false;
                 }
-                return false;
+                // strength cannot be more than the valency of a1
+                if (strength > a1.getValency()) {
+                        return false;
+                }
+
+                // remove all excess hydrogens
+                a1.getBonds().subList(0, strength).clear();
+
+                a1.addBond(a2, strength);
+
+                // remove all excess hydrogens
+                a2.getBonds().subList(0, strength).clear();
+
+                return true;
         }
 
         @Override
@@ -57,6 +71,10 @@ public class TreeMolecule implements Molecule {
         public String structuralFormula() {
                 // TODO Auto-generated method stub
                 return null;
+        }
+
+        public Atom getFirst() {
+            return first;
         }
 
 }

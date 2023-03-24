@@ -1,4 +1,6 @@
 //add name and id as comment
+// Pavaruth Buranakitsin 2646802B 
+
 //add import statements
 
 //a bond is a pair (Atom, weight) 

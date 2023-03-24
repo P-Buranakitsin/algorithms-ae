@@ -1,5 +1,3 @@
-package extra2023.assessment;
-
 import java.util.ArrayList;
 
 //to test the Molecule implementation

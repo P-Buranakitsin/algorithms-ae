@@ -91,6 +91,7 @@ public class TreeMolecule implements Molecule {
         }
 
         private String structuralFormulaHelper(Atom current) {
+                // LinkedHashSet is used because it preserves insertion order and avoid repeated characters
                 Set<String> formula = new LinkedHashSet<String>();
                 String formulaString = "";
                 formula.add(current.getElement());
@@ -100,13 +101,21 @@ public class TreeMolecule implements Molecule {
                                 formula.add("H");
                                 hydrogenCount++;
                         } else {
-                                formulaString += structuralFormulaHelper(current.getBonds().get(i).getChild());
+                                String weightString = "";
+                                int weight = current.getBonds().get(i).getWeight();
+                                if (weight == 2) {
+                                        weightString = "=";
+                                } else if (weight == 3) {
+                                        weightString = "#";
+                                }
+                                formulaString = weightString + structuralFormulaHelper(current.getBonds().get(i).getChild()) +  formulaString;
                         }
                 }
                 if (hydrogenCount > 1) {
                         formula.add(Integer.toString(hydrogenCount));
                 }
-                formulaString += String.join("", formula);
+                System.out.println(formula);
+                formulaString = String.join("", formula) + formulaString;
                 return formulaString;
         }
 

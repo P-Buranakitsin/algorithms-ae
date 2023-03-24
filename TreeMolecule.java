@@ -80,8 +80,10 @@ public class TreeMolecule implements Molecule {
 
         @Override
         public String smilesString() {
-                // TODO Auto-generated method stub
-                return null;
+                String formula = this.structuralFormula();
+                // replace H and numbers with empty strings
+                formula = formula.replaceAll("H\\d*|H(?=[^0-9]|$)", "");
+                return formula;
         }
 
         @Override

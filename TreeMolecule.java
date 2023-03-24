@@ -2,6 +2,10 @@
 // Pavaruth Buranakitsin 2646802B
 
 //add import statement
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TreeMolecule implements Molecule {
 
@@ -29,6 +33,10 @@ public class TreeMolecule implements Molecule {
                 if (strength > a1.getValency()) {
                         return false;
                 }
+                // exit the method if there is no hydrogen left
+                if (!containsHydrogen(a1)) {
+                        return false;
+                }
 
                 // remove all excess hydrogens
                 a1.getBonds().subList(0, strength).clear();
@@ -39,6 +47,15 @@ public class TreeMolecule implements Molecule {
                 a2.getBonds().subList(0, strength).clear();
 
                 return true;
+        }
+
+        private boolean containsHydrogen(Atom a1) {
+                for (Bond bond : a1.getBonds()) {
+                        if (bond.getChild().getElement().equals("H")) {
+                                return true;
+                        }
+                }
+                return false;
         }
 
         @Override
@@ -69,12 +86,32 @@ public class TreeMolecule implements Molecule {
 
         @Override
         public String structuralFormula() {
-                // TODO Auto-generated method stub
-                return null;
+                String formula = structuralFormulaHelper(this.first);
+                return formula;
+        }
+
+        private String structuralFormulaHelper(Atom current) {
+                Set<String> formula = new LinkedHashSet<String>();
+                String formulaString = "";
+                formula.add(current.getElement());
+                int hydrogenCount = 0;
+                for (int i = 0; i < current.getBonds().size(); i++) {
+                        if (current.getBonds().get(i).getChild().getElement().equals("H")) {
+                                formula.add("H");
+                                hydrogenCount++;
+                        } else {
+                                formulaString += structuralFormulaHelper(current.getBonds().get(i).getChild());
+                        }
+                }
+                if (hydrogenCount > 1) {
+                        formula.add(Integer.toString(hydrogenCount));
+                }
+                formulaString += String.join("", formula);
+                return formulaString;
         }
 
         public Atom getFirst() {
-            return first;
+                return first;
         }
 
 }

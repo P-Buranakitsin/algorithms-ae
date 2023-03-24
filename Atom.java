@@ -14,10 +14,6 @@ public class Atom {
 	private List<Bond> bonds = new ArrayList<Bond>();// the bonds to child atoms
 	private int valency;
 
-	public Atom(String type) {
-		
-	}
-
 	// this map has been included to help you look up valencies
 	// but you can ignore it (and delete it) if you want to use something else
 
@@ -40,5 +36,44 @@ public class Atom {
 	}
 
 	// now add all of the Atom constructors and methods you require
+	public Atom(String type) {
+		this(type, true);
+	}
 
+	public Atom(String type, boolean addBonds) {
+		// If type not found, throw an error
+		if (!VALENCY_MAP.containsKey(type)) {
+			throw new IllegalArgumentException("Invalid atom type");
+		}
+		this.element = type;
+		this.valency = VALENCY_MAP.get(type);
+		if (addBonds) {
+			for (int i = 0; i < VALENCY_MAP.get(type); i++) {
+				this.bonds.add(new Bond(new Atom("H", false), 1));
+			}
+		}
+	}
+
+	public String getElement() {
+		return this.element;
+	}
+
+	public List<Bond> getBonds() {
+		return this.bonds;
+	}
+
+	public int getValency() {
+		return this.valency;
+	}
+
+	public void addBond(Atom child, int weight) {
+		if (this.bonds.size() >= this.valency) {
+			throw new IllegalStateException("Atom has already reached maximum valency");
+		}
+		this.bonds.add(new Bond(child, weight));
+	}
+
+	public void removeBond(Bond bond) {
+		this.bonds.remove(bond);
+	}
 }

@@ -98,7 +98,6 @@ public class TestMolecule {
 	        Molecule mol = createMolecule(name, carbonAtoms, oxygenAtoms, nitrogenAtoms);
 	        System.out.println(name + " has smiles string " + mol.smilesString());
 	        System.out.println(name + " and structure " + mol.structuralFormula());
-	        
 	        boolean containsAtom = mol.contains(carbonAtoms.get(0));
 	        String output = "";
 	        if(containsAtom) output+=" contains ";

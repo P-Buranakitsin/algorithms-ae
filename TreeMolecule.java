@@ -93,31 +93,28 @@ public class TreeMolecule implements Molecule {
         }
 
         private String structuralFormulaHelper(Atom current) {
-                // LinkedHashSet is used because it preserves insertion order and avoid repeated characters
-                Set<String> formula = new LinkedHashSet<String>();
                 String formulaString = "";
-                formula.add(current.getElement());
+                formulaString += current.getElement();
                 int hydrogenCount = 0;
-                for (int i = 0; i < current.getBonds().size(); i++) {
-                        if (current.getBonds().get(i).getChild().getElement().equals("H")) {
-                                formula.add("H");
+                for (Bond bond : current.getBonds()) {
+                        if (bond.getChild().getElement().equals("H")) {
                                 hydrogenCount++;
-                        } else {
-                                String weightString = "";
-                                int weight = current.getBonds().get(i).getWeight();
-                                if (weight == 2) {
-                                        weightString = "=";
-                                } else if (weight == 3) {
-                                        weightString = "#";
+                                if (hydrogenCount <= 1) {
+                                        formulaString += bond.getChild().getElement();
                                 }
-                                formulaString = weightString + structuralFormulaHelper(current.getBonds().get(i).getChild()) +  formulaString;
+                                if (hydrogenCount > 1) {
+                                        formulaString += hydrogenCount;
+                                }
+                                formulaString = formulaString.replaceAll("\\d+", Integer.toString(hydrogenCount));
+                        } else {
+                                if (bond.getWeight() == 2) {
+                                        formulaString += "=";
+                                } else if (bond.getWeight() == 3) {
+                                        formulaString += "#";
+                                }
+                                formulaString += structuralFormulaHelper(bond.getChild());
                         }
                 }
-                if (hydrogenCount > 1) {
-                        formula.add(Integer.toString(hydrogenCount));
-                }
-                System.out.println(formula);
-                formulaString = String.join("", formula) + formulaString;
                 return formulaString;
         }
 

@@ -19,6 +19,6 @@ public interface Molecule {
 	public String structuralFormula();
 	// output a string for this molecule
 	// (i.e. a string including the H atoms)
-
+	public Atom getFirst();
 
 }

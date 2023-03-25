@@ -3,9 +3,6 @@
 
 //add import statement
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 public class TreeMolecule implements Molecule {
 
@@ -71,6 +68,7 @@ public class TreeMolecule implements Molecule {
                         return true;
                 }
                 for (Bond bond : current.getBonds()) {
+                        // recursive call
                         if (this.search(bond.getChild(), target)) {
                                 return true;
                         }
@@ -96,30 +94,40 @@ public class TreeMolecule implements Molecule {
                 String formulaString = "";
                 formulaString += current.getElement();
                 int hydrogenCount = 0;
+
+                // index to count iterations
                 int i = 0;
+
                 for (Bond bond : current.getBonds()) {
                         if (bond.getChild().getElement().equals("H")) {
                                 hydrogenCount++;
+                                // print element name (Hydrogen) one time only
                                 if (hydrogenCount <= 1) {
                                         formulaString += bond.getChild().getElement();
                                 }
+                                // if there is more than one hydrogens, print number of hydrogens
                                 if (hydrogenCount > 1) {
                                         formulaString += hydrogenCount;
                                 }
+                                // replace old numbers with more recent ones
                                 formulaString = formulaString.replaceAll("\\d+", Integer.toString(hydrogenCount));
                         } else {
+                                // Assume that the last element of bond is a main line, so anything else is a branch
                                 if (i < current.getBonds().size() - 1) {
                                         formulaString += "(";
                                 }
 
+                                // If bond's weight is two or three, a symbol is printed
                                 if (bond.getWeight() == 2) {
                                         formulaString += "=";
                                 } else if (bond.getWeight() == 3) {
                                         formulaString += "#";
                                 }
 
+                                // recursive call
                                 formulaString += structuralFormulaHelper(bond.getChild());
 
+                                 // Assume that the last element of bond is a main line, so anything else is a branch
                                 if (i < current.getBonds().size() - 1) {
                                         formulaString += ")";
                                 }

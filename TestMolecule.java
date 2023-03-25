@@ -94,11 +94,11 @@ public class TestMolecule {
 			ArrayList<Atom> oxygenAtoms = atomList(10, "O");//supply of oxygen atoms
 			ArrayList<Atom> nitrogenAtoms = atomList(10, "N");//supply of nitrogen atoms
 			
-			String name = "5-amino-4-methylpentanamide";
+			String name = "isobutyl alcohol";
 	        Molecule mol = createMolecule(name, carbonAtoms, oxygenAtoms, nitrogenAtoms);
 	        System.out.println(name + " has smiles string " + mol.smilesString());
 	        System.out.println(name + " and structure " + mol.structuralFormula());
-	        boolean containsAtom = mol.contains(carbonAtoms.get(0));
+	        boolean containsAtom = mol.contains(oxygenAtoms.get(1));
 	        String output = "";
 	        if(containsAtom) output+=" contains ";
 	        else output+=" doesn't contain ";

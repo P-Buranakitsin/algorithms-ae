@@ -96,6 +96,7 @@ public class TreeMolecule implements Molecule {
                 String formulaString = "";
                 formulaString += current.getElement();
                 int hydrogenCount = 0;
+                int i = 0;
                 for (Bond bond : current.getBonds()) {
                         if (bond.getChild().getElement().equals("H")) {
                                 hydrogenCount++;
@@ -107,13 +108,23 @@ public class TreeMolecule implements Molecule {
                                 }
                                 formulaString = formulaString.replaceAll("\\d+", Integer.toString(hydrogenCount));
                         } else {
+                                if (i < current.getBonds().size() - 1) {
+                                        formulaString += "(";
+                                }
+
                                 if (bond.getWeight() == 2) {
                                         formulaString += "=";
                                 } else if (bond.getWeight() == 3) {
                                         formulaString += "#";
                                 }
+
                                 formulaString += structuralFormulaHelper(bond.getChild());
+
+                                if (i < current.getBonds().size() - 1) {
+                                        formulaString += ")";
+                                }
                         }
+                        i++;
                 }
                 return formulaString;
         }

@@ -92,8 +92,14 @@ public class TreeMolecule implements Molecule {
 
         private String structuralFormulaHelper(Atom current) {
                 String formulaString = "";
-                formulaString += current.getElement();
                 int hydrogenCount = 0;
+                if (current.getElement().equals("H")) {
+                        formulaString += current.getElement();
+                        hydrogenCount++;
+                } else {
+                        formulaString += current.getElement();
+                }
+
 
                 // index to count iterations
                 int i = 0;
@@ -112,7 +118,8 @@ public class TreeMolecule implements Molecule {
                                 // replace old numbers with more recent ones
                                 formulaString = formulaString.replaceAll("\\d+", Integer.toString(hydrogenCount));
                         } else {
-                                // Assume that the last element of bond is a main line, so anything else is a branch
+                                // Assume that the last element of bond is a main line, so anything else is a
+                                // branch
                                 if (i < current.getBonds().size() - 1) {
                                         formulaString += "(";
                                 }
@@ -127,7 +134,8 @@ public class TreeMolecule implements Molecule {
                                 // recursive call
                                 formulaString += structuralFormulaHelper(bond.getChild());
 
-                                 // Assume that the last element of bond is a main line, so anything else is a branch
+                                // Assume that the last element of bond is a main line, so anything else is a
+                                // branch
                                 if (i < current.getBonds().size() - 1) {
                                         formulaString += ")";
                                 }

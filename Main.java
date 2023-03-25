@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        Atom carbon1 = new Atom("O");
-        TreeMolecule treeMolecule = new TreeMolecule(carbon1);
+        Atom hydrogen1 = new Atom("H");
+        TreeMolecule treeMolecule = new TreeMolecule(hydrogen1);
         System.out.println(treeMolecule.structuralFormula());
     }
 }

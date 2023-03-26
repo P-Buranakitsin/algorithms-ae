@@ -35,6 +35,9 @@ public class TreeMolecule implements Molecule {
                 if (!containsHydrogen(a1)) {
                         return false;
                 }
+                if (this.contains(a2)) {
+                        return false;
+                }
 
                 // remove all excess hydrogens
                 a1.getBonds().subList(0, strength).clear();
@@ -93,11 +96,11 @@ public class TreeMolecule implements Molecule {
 
         private String structuralFormulaHelper(Atom current) {
                 String formulaString = "";
-                int hydrogenCount = 0;
                 formulaString += current.getElement();
+                int hydrogenCount = 0;
 
                 // index to count iterations
-                int i = 0;
+                int iteration = 0;
 
                 for (Bond bond : current.getBonds()) {
                         if (bond.getChild().getElement().equals("H")) {
@@ -115,7 +118,7 @@ public class TreeMolecule implements Molecule {
                         } else {
                                 // Assume that the last element of bond is a main line, so anything else is a
                                 // branch
-                                if (i < current.getBonds().size() - 1) {
+                                if (iteration < current.getBonds().size() - 1) {
                                         formulaString += "(";
                                 }
 
@@ -131,11 +134,11 @@ public class TreeMolecule implements Molecule {
 
                                 // Assume that the last element of bond is a main line, so anything else is a
                                 // branch
-                                if (i < current.getBonds().size() - 1) {
+                                if (iteration < current.getBonds().size() - 1) {
                                         formulaString += ")";
                                 }
                         }
-                        i++;
+                        iteration++;
                 }
                 return formulaString;
         }

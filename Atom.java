@@ -47,6 +47,7 @@ public class Atom {
 		}
 		this.element = type;
 		this.valency = VALENCY_MAP.get(type);
+		// If this is false, a list of bonds will be empty
 		if (addBonds) {
 			for (int i = 0; i < VALENCY_MAP.get(type); i++) {
 				this.bonds.add(new Bond(new Atom("H", false), 1));

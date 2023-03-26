@@ -22,7 +22,8 @@ public class TreeMolecule implements Molecule {
                 if (!this.contains(a1)) {
                         return false;
                 }
-                // a2 should not be the exact same object as a1, but it can of the same type
+                // a2 should not be the exact same object as a1, but it can of the same type (to
+                // avoid confusion)
                 if (a1.equals(a2)) {
                         return false;
                 }
@@ -93,13 +94,7 @@ public class TreeMolecule implements Molecule {
         private String structuralFormulaHelper(Atom current) {
                 String formulaString = "";
                 int hydrogenCount = 0;
-                if (current.getElement().equals("H")) {
-                        formulaString += current.getElement();
-                        hydrogenCount++;
-                } else {
-                        formulaString += current.getElement();
-                }
-
+                formulaString += current.getElement();
 
                 // index to count iterations
                 int i = 0;
@@ -124,7 +119,7 @@ public class TreeMolecule implements Molecule {
                                         formulaString += "(";
                                 }
 
-                                // If bond's weight is two or three, a symbol is printed
+                                // If bond's weight is either two or three, a symbol is printed
                                 if (bond.getWeight() == 2) {
                                         formulaString += "=";
                                 } else if (bond.getWeight() == 3) {

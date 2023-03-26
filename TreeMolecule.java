@@ -35,6 +35,7 @@ public class TreeMolecule implements Molecule {
                 if (!containsHydrogen(a1)) {
                         return false;
                 }
+                // exit the method if a2 is already in the molecule
                 if (this.contains(a2)) {
                         return false;
                 }
